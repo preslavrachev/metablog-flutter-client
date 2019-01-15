@@ -130,6 +130,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  ios_search_bar:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "4c33ffa76f6209fa733dc471db79fcb9751ee51b"
+      url: "https://github.com/preslavrachev/ios_search_bar"
+    source: git
+    version: "0.0.1"
   js:
     dependency: transitive
     description:

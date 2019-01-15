@@ -1,19 +1,76 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_search_bar/ios_search_bar.dart';
 
-class SearchPage extends StatelessWidget {
-  const SearchPage({
-    Key key,
-  }) : super(key: key);
+class SearchPage extends StatefulWidget {
+  SearchPage();
+
+  createState() => new SearchPageState();
+}
+
+class SearchPageState extends State<SearchPage>
+    with SingleTickerProviderStateMixin {
+  SearchPageState();
+
+  TextEditingController _searchTextController = new TextEditingController();
+  FocusNode _searchFocusNode = new FocusNode();
+  Animation _animation;
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = new AnimationController(
+      duration: new Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _animation = new CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+      reverseCurve: Curves.easeInOut,
+    );
+    _searchFocusNode.addListener(() {
+      if (!_animationController.isAnimating) {
+        _animationController.forward();
+      }
+    });
+  }
+
+  void _cancelSearch() {
+    _searchTextController.clear();
+    _searchFocusNode.unfocus();
+    _animationController.reverse();
+  }
+
+  void _clearSearch() {
+    _searchTextController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Query: Apache Airflow'),
+    return new CupertinoPageScaffold(
+      navigationBar: new CupertinoNavigationBar(
+        middle: new IOSSearchBar(
+          controller: _searchTextController,
+          focusNode: _searchFocusNode,
+          animation: _animation,
+          onCancel: _cancelSearch,
+          onClear: _clearSearch,
+        ),
       ),
-      child: Center(
-        child: Text('Search Page')
+      child: new GestureDetector(
+        onTapUp: (TapUpDetails _) {
+          _searchFocusNode.unfocus();
+          if (_searchTextController.text == '') {
+            _animationController.reverse();
+          }
+        },
+        child: new Container(
+          child: Center(
+            child: Text('Search Results and saved searches'),
+          ),
+        ), // Add search body here
       ),
     );
   }
