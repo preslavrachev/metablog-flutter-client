@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ios_search_bar/ios_search_bar.dart';
+import 'package:metablog_reader/widgets/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage();
