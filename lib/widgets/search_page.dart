@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:metablog_reader/widgets/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage();
-
   createState() => new SearchPageState();
 }
 
@@ -60,18 +58,46 @@ class SearchPageState extends State<SearchPage>
         ),
       ),
       child: new GestureDetector(
-        onTapUp: (TapUpDetails _) {
-          _searchFocusNode.unfocus();
-          if (_searchTextController.text == '') {
-            _animationController.reverse();
-          }
-        },
-        child: new Container(
-          child: Center(
-            child: Text('Search Results and saved searches'),
-          ),
-        ), // Add search body here
-      ),
+          onTapUp: (TapUpDetails _) {
+            _searchFocusNode.unfocus();
+            if (_searchTextController.text == '') {
+              _animationController.reverse();
+            }
+          },
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Saved Searches",
+                    style: Theme.of(context).textTheme.headline,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 3,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(30.0),
+                              child: Text("item",
+                                  style: Theme.of(context).textTheme.title,
+                                  textAlign: TextAlign.left),
+                            ),
+                            Divider()
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )), // Add search body here
     );
   }
 }
